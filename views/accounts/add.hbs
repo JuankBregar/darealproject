@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="block">
+            <div class="title">
+                <strong class="d-block">Nueva cuenta</strong>
+            </div>
+            <div class="block-body">
+                <form class="form-horizontal" action="/accounts/add" method="POST">
+                    <div class="form-group row">
+                        <label class="col-sm-3 form-control-label">Nombre</label>
+                        <div class="col-sm-9">
+                          <input id="inputHorizontalSuccess" name="name" type="text" placeholder="Nombre" class="form-control form-control-success">
+                          <small class="form-text">Identificador de la cuenta</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 form-control-label">Monto</label>
+                        <div class="col-sm-9">
+                          <input id="inputHorizontalSuccess" name="amount" type="Number" min="0" placeholder="Monto" class="form-control form-control-success">
+                          <small class="form-text">Monto de apertura</small>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 form-control-label">
+                            Inversión
+                        </label>
+                        <div class="col-sm-9">
+                          <div class="i-checks">
+                            <input id="checkboxCustom1" name="hasParent" type="checkbox" value="true" class="checkbox-template">
+                            <label for="checkboxCustom1">Recibe fondos del capital</label>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">       
+                        <div class="col-sm-9 offset-sm-3">
+                          <input type="submit" value="Guardar" class="btn btn-primary">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

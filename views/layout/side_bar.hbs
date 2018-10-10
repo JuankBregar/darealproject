@@ -1,0 +1,34 @@
+<!--SIDEBAR NAV-->
+<nav id="sidebar">
+    <!--Can have a header but naaah-->
+    <!--Menu items-->
+    <span class="heading">Menu</span>
+    <ul class="list-unstyled">
+        <li>
+            <a href="/">
+                <i class="icon-home"></i>Inicio
+            </a>
+        </li>
+        <li>
+            <a href="#cuentasCbo" aria-expanded="false" data-toggle="collapse">
+                <i class="icon-windows"></i>Cuentas
+            </a>
+            <ul id="cuentasCbo" class="collapse list-unstyled">
+                <li><a href="accounts/add"><i class="fa fa-plus"></i>Añadir</a></li>
+                {{!-- <li><a href="#"><i class="icon-contract"></i>Cuenta X</a></li>
+                <li><a href="#"><i class="icon-contract"></i>Cuenta Y</a></li>
+                <li><a href="#"><i class="icon-contract"></i>Cuenta Z</a></li> --}}
+            </ul>
+        </li>
+        <li>
+            <a href="#inventarioCbo" aria-expanded="false" data-toggle="collapse">
+                <i class="icon-padnote"></i>Inventarios
+            </a>
+            <ul id="inventarioCbo" class="collapse list-unstyled">
+                <li><a href="#">Inventario X</a></li>
+                <li><a href="#">Inventario Y</a></li>
+                <li><a href="#">Inventario Z</a></li>
+            </ul>
+        </li>
+    </ul>
+</nav>
