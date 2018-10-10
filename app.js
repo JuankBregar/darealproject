@@ -36,8 +36,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //Routes
 const indexRoute = require('./routes/index');
 app.use('/', indexRoute);
-const accountRoute = require('./routes/accounts');
-app.use('/accounts', accountRoute);
+/**
+ * Enable this routes after finishing inventory features.
+ */
+
+// const accountRoute = require('./routes/accounts');
+// app.use('/accounts', accountRoute);
+
 //Static dir
 app.use('/assets', express.static(__dirname + '/assets'));
 
