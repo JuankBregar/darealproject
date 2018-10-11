@@ -7,8 +7,9 @@ var register = function(Handlebars) {
                 ${val.url?`<a href="${val.url}">${val.name}</a>`:
                 val.name}
                 </li>`).join('')}
-                </ul>`
+                </ul>`,
                 //TODO: add helper to load scripts per module
+                scripts: (assets)=>assets.map(val=>`<script src="../../${val}"></script>`).join('')
     };
 
     if (Handlebars && typeof Handlebars.registerHelper === "function") {

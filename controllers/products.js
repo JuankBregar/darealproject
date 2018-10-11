@@ -14,7 +14,8 @@ exports.add = (req, res, next) => {
             { name: 'inicio', url: 'localhost:3000/' },
             { name: 'productos', url: 'localhost:3000/products' },
             { name: 'añadir' }
-        ]
+        ],
+        assets: ['assets/js/product.js']
     }
     res.render('product_add', data);
 }
