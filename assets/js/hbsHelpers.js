@@ -6,8 +6,9 @@ var register = function(Handlebars) {
                 ${labels.map((val) => `<li class="breadcrumb-item">
                 ${val.url?`<a href="${val.url}">${val.name}</a>`:
                 val.name}
-                </li>`)}
-                </ul>`.replace(',','')
+                </li>`).join('')}
+                </ul>`
+                //TODO: add helper to load scripts per module
     };
 
     if (Handlebars && typeof Handlebars.registerHelper === "function") {

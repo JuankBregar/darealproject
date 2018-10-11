@@ -42,7 +42,8 @@ app.use('/', indexRoute);
 
 // const accountRoute = require('./routes/accounts');
 // app.use('/accounts', accountRoute);
-
+const productRoute = require('./routes/products');
+app.use('/products', productRoute);
 //Static dir
 app.use('/assets', express.static(__dirname + '/assets'));
 
