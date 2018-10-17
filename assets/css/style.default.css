@@ -3697,3 +3697,24 @@ pre code {
     width: 100%;
     height: 100%;
 }
+
+.wrong {
+    border: 1px solid #db6574 !important;
+}
+
+.custom_modal {
+    background: #2d3035 !important;
+}
+
+.custom_modal .swal2-title,
+.custom_modal #swal2-content {
+    color: #8a8d93 !important;
+}
+
+button.swal2-confirm.swal2-styled {
+    background: #e84c6c !important;
+}
+
+.swal2-popup .swal2-styled:focus {
+    box-shadow: 0 0 0 0.2rem rgba(219, 101, 116, 0.5) !important;
+}

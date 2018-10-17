@@ -46,6 +46,7 @@ const productRoute = require('./routes/products');
 app.use('/products', productRoute);
 //Static dir
 app.use('/assets', express.static(__dirname + '/assets'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 //Export
 module.exports = app;
