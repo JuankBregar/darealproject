@@ -94,3 +94,25 @@ exports.add = (req, res, next) => {
             });
     })
 }
+
+exports.getByName = (req, res, next) => {
+    const name = req.params.name;
+    Product.findOne({ name: name })
+        .populate('sub_products', 'name quantity')
+        .exec()
+        .then(product => {
+            const data = {
+                labels: [
+                    { name: 'inicio', url: 'localhost:3000/' },
+                    { name: 'productos', url: 'localhost:3000/products' },
+                    { name: product.name }
+                ],
+                //assets: ['assets/js/product.js', 'assets/js/swal.js']
+                product: product
+            }
+            res.render('product_add', data);
+        })
+        .catch(err => {
+            res.send(err);
+        })
+}

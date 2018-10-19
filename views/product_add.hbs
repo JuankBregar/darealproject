@@ -3,7 +3,11 @@
     <div class="col-12">
         <div class="block">
             <div class="title">
+                {{#if product}}
+                <strong>Detalle de Producto</strong>
+                {{else}}
                 <strong>Nuevo Producto</strong>
+                {{/if}}
             </div>
             <div class="block-body">
                 <form action="/products/add" method="POST" class="form-horizontal" id="new_product" enctype="multipart/form-data">
@@ -11,7 +15,11 @@
                         <div class="col-lg-4">
                             <div class="img-picker">
                                 <div class="img-upload-btn">
+                                    {{#if product.image}}
+                                    <img src="/{{product.image}}" class="image-inside"/>
+                                    {{else}}
                                     <i class="fa fa-plus"></i>
+                                    {{/if}}
                                     <input type="file" accept="image/x-png,image/jpeg" name="images" id="image_picker">
                                 </div>
                             </div>
@@ -22,16 +30,18 @@
                                     <div class="form-group row">
                                         <label for="" class="col-sm-2 form-control-label">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input  name="name" type="text" placeholder="Nombre" class="form-control form-control-success">
+                                            <input  name="name" type="text" placeholder="Nombre" value="{{product.name}}"class="form-control form-control-success" {{#if product}}disabled{{/if}}>
                                             <small class="form-text">Nombre del estilo.</small>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="" class="col-sm-2 form-control-label">Material</label>
                                         <div class="col-sm-10">
-                                            <select name="material" class="form-control mb-3 mb-3">
+                                            <select name="material" class="form-control mb-3 mb-3" {{#if product}}disabled{{/if}}>
+                                            {{#select product.material}}
                                                 <option value="cuero">Cuero</option>
                                                 <option value="sintetico">Sintetico</option>
+                                            {{/select}}
                                             </select>
                                             <small class="form-text">Material del calzado</small>
                                         </div>
@@ -39,10 +49,12 @@
                                     <div class="form-group row">
                                         <label for="" class="col-sm-2 form-control-label">Tipo</label>
                                         <div class="col-sm-10">
-                                            <select name="type" class="form-control mb-3 mb-3">
+                                            <select name="type" class="form-control mb-3 mb-3" {{#if product}}disabled{{/if}}>
+                                                {{#select product.type}}
                                                 <option value="sandalias">Sandalias</option>
                                                 <option value="plataforma">Plataforma</option>
                                                 <option value="zapato_cerrado">Zapato Cerrado</option>
+                                                {{/select}}
                                             </select>
                                             <small class="form-text">Tipo de calzado</small>
                                         </div>
@@ -50,7 +62,7 @@
                                     <div class="form-group row">
                                         <label for="" class="col-sm-2 form-control-label">Cantidad</label>
                                         <div class="col-sm-10">
-                                            <input type="number" min="0"  name="quantity" placeholder="0" class="form-control form-control-success">
+                                            <input type="number" min="0" value="{{product.quantity}}" name="quantity" placeholder="0" class="form-control form-control-success" {{#if product}}disabled{{/if}}>
                                             <small class="form-text">Cantidad adquirida.</small>
                                         </div>
                                     </div>
@@ -66,7 +78,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Precio compra</label>
                                 <div class="col-sm-10">
-                                    <input type="number" min="0" step="0.01"  name="acquisition_price" placeholder="0" class="form-control form-control-success pu">
+                                    <input type="number" min="0" step="0.01" value="{{product.acquisition_price}}" name="acquisition_price" placeholder="0" class="form-control form-control-success pu" {{#if product}}disabled{{/if}}>
                                     <small class="form-text">Precio de adquisición.</small>
                                 </div>
                             </div>
@@ -75,7 +87,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Transporte</label>
                                 <div class="col-sm-10">
-                                    <input type="number" min="0" step="0.01"  name="tranport_price_per_unit" placeholder="0" class="pu form-control form-control-success">
+                                    <input type="number" min="0" step="0.01"  value="{{product.tranport_price_per_unit}}" name="tranport_price_per_unit" placeholder="0" class="pu form-control form-control-success" {{#if product}}disabled{{/if}}>
                                     <small class="form-text">Precio de transporte.</small>
                                 </div>
                             </div>
@@ -86,7 +98,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Precio venta</label>
                                 <div class="col-sm-10">
-                                    <input type="number" min="0" step="0.01"  name="sell_price" placeholder="0" class="form-control form-control-success pu">
+                                    <input type="number" min="0" step="0.01" value="{{product.sell_price}}" name="sell_price" placeholder="0" class="form-control form-control-success pu" {{#if product}}disabled{{/if}}>
                                     <small class="form-text">Precio de venta.</small>
                                 </div>
                             </div>
@@ -106,7 +118,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">IVA</label>
                                 <div class="col-sm-10">
-                                    <input type="number" min="0" step="0.01"  name="IVA" placeholder="0" class="form-control form-control-success" disabled="disabled">
+                                    <input type="number" min="0" step="0.01" value="{{product.IVA}}" name="IVA" placeholder="0" class="form-control form-control-success" disabled="disabled">
                                     <small class="form-text">Impuesto de venta.</small>
                                 </div>
                             </div>
@@ -115,7 +127,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Precio final</label>
                                 <div class="col-sm-10">
-                                    <input type="number"  name="final_price" placeholder="0" class="form-control form-control-success" disabled='disabled'>
+                                    <input type="number"  value="{{product.final_price}}"name="final_price" placeholder="0" class="form-control form-control-success" disabled='disabled'>
                                     <small class="form-text">Precio final por unidad</small>
                                 </div>
                             </div>
@@ -137,22 +149,31 @@
                                 </thead>
                                 <tbody>
                                     {{!-- Auto --}}
+                                    {{#each product.sub_products}}
+                                    <tr>
+                                        <th>{{this.name}}</th>
+                                        <th>{{this.quantity}}</th>
+                                    </tr>
+                                    {{/each}}
                                 </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="col-2">
+                            {{#if product}}
+                            {{else}}
                             <div class="table-btn table-add" data-target="#table_tallas">
                                 <i class="fa fa-plus"></i>
                             </div>
                             <div class="table-btn table-remove" data-target="#table_tallas">
                                 <i class="fa fa-minus"></i>
                             </div>
+                            {{/if}}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 align-items-center">
-                            <button type="submit" class="btn btn-primary action-btn mt-4">Guardar</button>
+                            <button type="submit" class="btn btn-primary action-btn mt-4"{{#if product}}disabled{{/if}}>Guardar</button>
                         </div>
                     </div>
                 </form>

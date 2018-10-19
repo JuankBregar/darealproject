@@ -32,5 +32,6 @@ const app = express();
 app.get('/', controller.get);
 app.get('/add', controller.add_view);
 app.post('/add', upload.single('images'), controller.add)
+app.get('/:name', controller.getByName);
 
 module.exports = app;

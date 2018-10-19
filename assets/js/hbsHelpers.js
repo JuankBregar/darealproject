@@ -10,7 +10,12 @@ var register = function(Handlebars) {
                 </ul>`,
                 //TODO: add helper to load scripts per module
                 scripts: (assets=[])=>assets.map(val=>`<script src="../../${val}"></script>`).join(''),
-                styles : (styles=[])=>styles.map(val=>`<link rel="stylesheet" href="../../${val}">`).join('')
+                styles : (styles=[])=>styles.map(val=>`<link rel="stylesheet" href="../../${val}">`).join(''),
+                select: function(selected, options) {
+                    return options.fn(this).replace(
+                        new RegExp(' value=\"' + selected + '\"'),
+                        '$& selected="selected"');
+                }
     };
 
     if (Handlebars && typeof Handlebars.registerHelper === "function") {
