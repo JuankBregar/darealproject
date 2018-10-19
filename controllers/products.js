@@ -2,13 +2,28 @@ const mongoose = require('mongoose');
 const Product = require('../models/product');
 
 exports.get = (req, res, next) => {
-    const data = {
-        labels: [
-            { name: 'inicio', url: 'localhost:3000/' },
-            { name: 'productos' }
-        ]
-    }
-    res.render('product_index', data);
+    //Find those product who have childs
+    Product.find({ sub_products: { $exists: true, $ne: [] } })
+        .select('name type material quantity sell_price')
+        .exec()
+        .then(products => {
+            const data = {
+                labels: [
+                    { name: 'inicio', url: 'localhost:3000/' },
+                    { name: 'productos' }
+                ],
+                assets: ['assets/vendor/dataTables/jquery.dataTables.min.js',
+                    'assets/vendor/dataTables/dataTables.bootstrap4.min.js',
+                    'assets/js/product.js'
+                ],
+                styles: ['assets/vendor/dataTables/dataTables.bootstrap4.min.css'],
+                products: products
+            }
+            res.render('product_index', data);
+        })
+        .catch(err => {
+            res.send(err);
+        })
 }
 
 exports.add_view = (req, res, next) => {
@@ -72,7 +87,7 @@ exports.add = (req, res, next) => {
         })
         the_product.save()
             .then(result => {
-                res.send(result);
+                res.redirect('/products');
             })
             .catch(err => {
                 res.send(err);

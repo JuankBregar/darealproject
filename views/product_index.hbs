@@ -1,5 +1,42 @@
 <div class="row">
     <div class="col-12">
+        <div class="block margin-bottom-sm">
+            <div class="title">
+                <strong>Productos</strong>
+            </div>
+            <div class="table-responsive"> 
+                <table class="table" id="products">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Material</th>
+                        <th>Cantidad disponible</th>
+                        <th>Precio de venta</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each products}}
+                        <tr>
+                            <th><a href="/products/{{this.name}}">{{this.name}}</a></th>
+                            <th>{{this.type}}</th>
+                            <th>{{this.material}}</th>
+                            <th>{{this.quantity}}</th>
+                            <th>{{this.sell_price}}</th>
+                            <th>
+                                <button class="add_more btn btn-primary action-btn">Agregar</button>
+                            </th>
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
         <div class="block">
             <a class="btn btn-primary action-btn" id="add_product" type="button" href="/products/add">Agregar producto</a>
         </div>

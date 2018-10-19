@@ -9,7 +9,8 @@ var register = function(Handlebars) {
                 </li>`).join('')}
                 </ul>`,
                 //TODO: add helper to load scripts per module
-                scripts: (assets=[])=>assets.map(val=>`<script src="../../${val}"></script>`).join('')
+                scripts: (assets=[])=>assets.map(val=>`<script src="../../${val}"></script>`).join(''),
+                styles : (styles=[])=>styles.map(val=>`<link rel="stylesheet" href="../../${val}">`).join('')
     };
 
     if (Handlebars && typeof Handlebars.registerHelper === "function") {
