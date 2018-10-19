@@ -107,7 +107,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Ganancia</label>
                                 <div class="col-sm-10">
-                                    <input type="number" id="ganancia_unit" placeholder="0" class="form-control form-control-success" disabled="disabled">
+                                    <input type="number" id="ganancia_unit" placeholder="0" class="form-control form-control-success" readonly>
                                     <small class="form-text">Ganacia unitaria</small>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">IVA</label>
                                 <div class="col-sm-10">
-                                    <input type="number" min="0" step="0.01" value="{{product.IVA}}" name="IVA" placeholder="0" class="form-control form-control-success" disabled="disabled">
+                                    <input type="number" min="0" step="0.01" value="{{product.IVA}}" name="IVA" placeholder="0" class="form-control form-control-success" readonly>
                                     <small class="form-text">Impuesto de venta.</small>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Precio final</label>
                                 <div class="col-sm-10">
-                                    <input type="number"  value="{{product.final_price}}"name="final_price" placeholder="0" class="form-control form-control-success" disabled='disabled'>
+                                    <input type="number"  value="{{product.final_price}}"name="final_price" placeholder="0" class="form-control form-control-success" readonly>
                                     <small class="form-text">Precio final por unidad</small>
                                 </div>
                             </div>

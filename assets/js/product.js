@@ -133,7 +133,7 @@ $(function() {
     }
 
     $('.price_unit input.pu').on('change', () => {
-        $('input[name=IVA]').val(Number($('input[name=sell_price]').val()) * 0.13)
+        $('input[name=IVA]').val((Number($('input[name=sell_price]').val()) * 0.13).toFixed(2))
         $('input#ganancia_unit').val(
             ((Number($('input[name=sell_price]').val()) /
                 Number($('input[name=acquisition_price]').val()) * 100)).toFixed(2))
