@@ -40,10 +40,11 @@ exports.add_view = (req, res, next) => {
 
 exports.add = (req, res, next) => {
     //First save the sub objects
+    req.file ? re.file.path : ''
     promises = JSON.parse(req.body.sub_objects).map(val => {
         const product = new Product({
             _id: mongoose.Types.ObjectId(),
-            name: val.name,
+            name: `${req.body.name}-${val.name}`,
             type: req.body.type,
             quantity: val.cantidad,
             actual_quantity: val.cantidad,
@@ -55,7 +56,7 @@ exports.add = (req, res, next) => {
             material: req.body.material,
             created: new Date().toISOString(), //auto
             lastUpdate: new Date().toISOString(), //auto
-            image: req.file.path
+            image: req.file ? re.file.path : ''
         });
         return product.save()
             .then(result => {
@@ -82,7 +83,7 @@ exports.add = (req, res, next) => {
             sub_products: result,
             created: new Date().toISOString(), //auto
             lastUpdate: new Date().toISOString(), //auto
-            image: req.file.path
+            image: req.file ? re.file.path : ''
 
         })
         the_product.save()
