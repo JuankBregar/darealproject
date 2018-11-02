@@ -33,5 +33,7 @@ app.get('/', controller.get);
 app.get('/add', controller.add_view);
 app.post('/add', upload.single('images'), controller.add)
 app.get('/:name', controller.getByName);
+app.get('/add/:name', controller.getByName)
+app.post('/update_inventory', upload.single('images'), controller.add_inventory);
 
 module.exports = app;

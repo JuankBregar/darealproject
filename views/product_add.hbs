@@ -10,7 +10,11 @@
                 {{/if}}
             </div>
             <div class="block-body">
+                {{#if deblocked}}
+                <form action="/products/update_inventory" method="POST" class="form-horizontal" id="new_product" enctype="multipart/form-data">
+                {{else}}
                 <form action="/products/add" method="POST" class="form-horizontal" id="new_product" enctype="multipart/form-data">
+                {{/if}}
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="img-picker">
@@ -30,7 +34,7 @@
                                     <div class="form-group row">
                                         <label for="" class="col-sm-2 form-control-label">Nombre</label>
                                         <div class="col-sm-10">
-                                            <input  name="name" type="text" placeholder="Nombre" value="{{product.name}}"class="form-control form-control-success" {{#if product}}disabled{{/if}}>
+                                            <input  name="name" type="text" placeholder="Nombre" value="{{product.name}}"class="form-control form-control-success" {{#if product}}readonly{{/if}}>
                                             <small class="form-text">Nombre del estilo.</small>
                                         </div>
                                     </div>
@@ -62,7 +66,15 @@
                                     <div class="form-group row">
                                         <label for="" class="col-sm-2 form-control-label">Cantidad</label>
                                         <div class="col-sm-10">
-                                            <input type="number" min="0" value="{{product.quantity}}" name="quantity" placeholder="0" class="form-control form-control-success" {{#if product}}disabled{{/if}}>
+                                            {{#if deblocked}}
+                                                <input type="number" min="0" value="0" name="quantity" placeholder="0" class="form-control form-control-success">   
+                                            {{else}}
+                                                {{#if product}}
+                                                    <input type="number" min="0" value="{{product.quantity}}" name="quantity" placeholder="0" class="form-control form-control-success" disabled>    
+                                                {{else}}
+                                                    <input type="number" min="0" value="{{product.quantity}}" name="quantity" placeholder="0" class="form-control form-control-success">   
+                                                {{/if}}
+                                            {{/if}}
                                             <small class="form-text">Cantidad adquirida.</small>
                                         </div>
                                     </div>
@@ -78,7 +90,15 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Precio compra</label>
                                 <div class="col-sm-10">
-                                    <input type="number" min="0" step="0.01" value="{{product.acquisition_price}}" name="acquisition_price" placeholder="0" class="form-control form-control-success pu" {{#if product}}disabled{{/if}}>
+                                    {{#if deblocked}}
+                                        <input type="number" min="0" step="0.01" value="{{product.acquisition_price}}" name="acquisition_price" placeholder="0" class="form-control form-control-success pu">
+                                    {{else}}
+                                        {{#if product}}
+                                            <input type="number" min="0" step="0.01" value="{{product.acquisition_price}}" name="acquisition_price" placeholder="0" class="form-control form-control-success pu" disabled>
+                                        {{else}}
+                                            <input type="number" min="0" step="0.01" value="{{product.acquisition_price}}" name="acquisition_price" placeholder="0" class="form-control form-control-success pu">
+                                        {{/if}}
+                                    {{/if}}
                                     <small class="form-text">Precio de adquisición.</small>
                                 </div>
                             </div>
@@ -87,7 +107,15 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Transporte</label>
                                 <div class="col-sm-10">
-                                    <input type="number" min="0" step="0.01"  value="{{product.tranport_price_per_unit}}" name="tranport_price_per_unit" placeholder="0" class="pu form-control form-control-success" {{#if product}}disabled{{/if}}>
+                                    {{#if deblocked}}
+                                        <input type="number" min="0" step="0.01"  value="{{product.tranport_price_per_unit}}" name="tranport_price_per_unit" placeholder="0" class="pu form-control form-control-success">
+                                    {{else}}
+                                        {{#if product}}
+                                            <input type="number" min="0" step="0.01"  value="{{product.tranport_price_per_unit}}" name="tranport_price_per_unit" placeholder="0" class="pu form-control form-control-success" disabled>
+                                        {{else}}
+                                            <input type="number" min="0" step="0.01"  value="{{product.tranport_price_per_unit}}" name="tranport_price_per_unit" placeholder="0" class="pu form-control form-control-success">
+                                        {{/if}}
+                                    {{/if}}
                                     <small class="form-text">Precio de transporte.</small>
                                 </div>
                             </div>
@@ -98,7 +126,15 @@
                             <div class="form-group row">
                                 <label for="" class="col-sm-2 form-control-label">Precio venta</label>
                                 <div class="col-sm-10">
-                                    <input type="number" min="0" step="0.01" value="{{product.sell_price}}" name="sell_price" placeholder="0" class="form-control form-control-success pu" {{#if product}}disabled{{/if}}>
+                                    {{#if deblocked}}
+                                        <input type="number" min="0" step="0.01" value="{{product.sell_price}}" name="sell_price" placeholder="0" class="form-control form-control-success pu">
+                                    {{else}}
+                                        {{#if product}}
+                                            <input type="number" min="0" step="0.01" value="{{product.sell_price}}" name="sell_price" placeholder="0" class="form-control form-control-success pu" disabled>
+                                        {{else}}
+                                            <input type="number" min="0" step="0.01" value="{{product.sell_price}}" name="sell_price" placeholder="0" class="form-control form-control-success pu">
+                                        {{/if}}
+                                    {{/if}}
                                     <small class="form-text">Precio de venta.</small>
                                 </div>
                             </div>
@@ -149,64 +185,59 @@
                                 </thead>
                                 <tbody>
                                     {{!-- Auto --}}
-                                    {{#each product.sub_products}}
-                                    <tr>
-                                        <th>{{this.name}}</th>
-                                        <th>{{this.quantity}}</th>
-                                    </tr>
-                                    {{/each}}
+                                    {{#if deblocked}}
+                                        {{#each product.sub_products}}
+                                        <tr>
+                                            <td >{{this.name}}</td>
+                                            <td contenteditable="true">0</td>
+                                        </tr>
+                                        {{/each}}
+                                    {{else}}
+                                        {{#each product.sub_products}}
+                                        <tr>
+                                            <td>{{this.name}}</td>
+                                            <td>{{this.quantity}}</td>
+                                        </tr>
+                                        {{/each}}
+                                    {{/if}}
                                 </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="col-2">
-                            {{#if product}}
+                            {{#if deblocked}}
+                                <div class="table-btn table-add" data-target="#table_tallas">
+                                    <i class="fa fa-plus"></i>
+                                </div>
+                                <div class="table-btn table-remove" data-target="#table_tallas">
+                                    <i class="fa fa-minus"></i>
+                                </div>
                             {{else}}
-                            <div class="table-btn table-add" data-target="#table_tallas">
-                                <i class="fa fa-plus"></i>
-                            </div>
-                            <div class="table-btn table-remove" data-target="#table_tallas">
-                                <i class="fa fa-minus"></i>
-                            </div>
+                                {{#if product}}
+                                {{else}}
+                                    <div class="table-btn table-add" data-target="#table_tallas">
+                                        <i class="fa fa-plus"></i>
+                                    </div>
+                                    <div class="table-btn table-remove" data-target="#table_tallas">
+                                        <i class="fa fa-minus"></i>
+                                    </div>
+                                {{/if}}
                             {{/if}}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 align-items-center">
-                            <button type="submit" class="btn btn-primary action-btn mt-4"{{#if product}}disabled{{/if}}>Guardar</button>
+                            {{#if deblocked}}
+                                <button type="submit" class="btn btn-primary action-btn mt-4">Guardar</button>    
+                            {{else}}
+                                {{#if product}}
+                                {{else}}
+                                    <button type="submit" class="btn btn-primary action-btn mt-4">Guardar</button>
+                                {{/if}}
+                            {{/if}}
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-{{!-- MODAL --}}
-<div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" class="modal fade text-left" style="display: none;" aria-hidden="true">
-    <div role="document" class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header"><strong id="exampleModalLabel" class="modal-title">Signin Modal</strong>
-            <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
-            </div>
-            <div class="modal-body">
-            <p>Lorem ipsum dolor sit amet consectetur.</p>
-            <form>
-                <div class="form-group">
-                <label>Email</label>
-                <input type="email" placeholder="Email Address" class="form-control">
-                </div>
-                <div class="form-group">       
-                <label>Password</label>
-                <input type="password" placeholder="Password" class="form-control">
-                </div>
-                <div class="form-group">       
-                <input type="submit" value="Signin" class="btn btn-primary">
-                </div>
-            </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-secondary">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

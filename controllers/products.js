@@ -9,7 +9,7 @@ exports.get = (req, res, next) => {
         .then(products => {
             const data = {
                 labels: [
-                    { name: 'inicio', url: 'localhost:3000/' },
+                    { name: 'inicio', url: '/' },
                     { name: 'productos' }
                 ],
                 assets: ['assets/vendor/dataTables/jquery.dataTables.min.js',
@@ -29,8 +29,8 @@ exports.get = (req, res, next) => {
 exports.add_view = (req, res, next) => {
     const data = {
         labels: [
-            { name: 'inicio', url: 'localhost:3000/' },
-            { name: 'productos', url: 'localhost:3000/products' },
+            { name: 'inicio', url: '/' },
+            { name: 'productos', url: '/products' },
             { name: 'añadir' }
         ],
         assets: ['assets/js/product.js', 'assets/js/swal.js']
@@ -40,7 +40,6 @@ exports.add_view = (req, res, next) => {
 
 exports.add = (req, res, next) => {
     //First save the sub objects
-    req.file ? re.file.path : ''
     promises = JSON.parse(req.body.sub_objects).map(val => {
         const product = new Product({
             _id: mongoose.Types.ObjectId(),
@@ -56,7 +55,7 @@ exports.add = (req, res, next) => {
             material: req.body.material,
             created: new Date().toISOString(), //auto
             lastUpdate: new Date().toISOString(), //auto
-            image: req.file ? re.file.path : ''
+            image: req.file ? req.file.path : ''
         });
         return product.save()
             .then(result => {
@@ -83,7 +82,7 @@ exports.add = (req, res, next) => {
             sub_products: result,
             created: new Date().toISOString(), //auto
             lastUpdate: new Date().toISOString(), //auto
-            image: req.file ? re.file.path : ''
+            image: req.file ? req.file.path : ''
 
         })
         the_product.save()
@@ -97,6 +96,7 @@ exports.add = (req, res, next) => {
 }
 
 exports.getByName = (req, res, next) => {
+    const path = req.path.split('/').filter(Boolean);
     const name = req.params.name;
     Product.findOne({ name: name })
         .populate('sub_products', 'name quantity')
@@ -104,16 +104,66 @@ exports.getByName = (req, res, next) => {
         .then(product => {
             const data = {
                 labels: [
-                    { name: 'inicio', url: 'localhost:3000/' },
-                    { name: 'productos', url: 'localhost:3000/products' },
+                    { name: 'inicio', url: '/' },
+                    { name: 'productos', url: '/products' },
                     { name: product.name }
                 ],
-                //assets: ['assets/js/product.js', 'assets/js/swal.js']
-                product: product
+                assets: ['assets/js/product.js', 'assets/js/swal.js'],
+                product: product,
+                deblocked: path.includes('add') && path.includes(name),
             }
             res.render('product_add', data);
         })
         .catch(err => {
             res.send(err);
         })
+}
+
+//Updates a product inventory
+exports.add_inventory = (req, res, next) => {
+    /**
+     * TODO: add a new subproduct
+     * use findOneAndUpdate({},{},upsert:true)
+     * then return result._id
+     */
+    const objects = decompose(req.body);
+    //Collect update promisses
+    let promisses = objects.map(element => {
+        let { name, quantity, ...update } = element;
+        //Update the prices field and increase the quantity
+        return Product
+            .findOneAndUpdate({ name: name }, { $set: update, $inc: { quantity: quantity } })
+            .exec()
+            .then(result => { return result })
+    });
+
+    Promise
+        .all(promisses)
+        .then(result => {
+            /**
+             * To add new sub objects
+             * update the parent object subobject fields with result
+             */
+            res.redirect('/products');
+        })
+        .catch(err => {
+            res.send(err);
+        })
+
+}
+
+decompose = (body) => {
+    let update = {
+        acquisition_price: body.acquisition_price,
+        tranport_price_per_unit: body.tranport_price_per_unit,
+        sell_price: body.sell_price,
+        IVA: body.IVA,
+        final_price: body.final_price
+    }
+    let master = JSON.parse(body.sub_objects).map(val => {
+        return {...update, name: val.name, quantity: val.cantidad }
+    })
+    master.push({...update, name: body.name, quantity: body.quantity });
+    return master;
+
 }
