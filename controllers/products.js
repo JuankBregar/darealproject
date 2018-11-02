@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Product = require('../models/product');
+const operation = require('../controllers/operations');
 
 exports.get = (req, res, next) => {
     //Find those product who have childs
@@ -58,6 +59,12 @@ exports.add = (req, res, next) => {
         });
         return product.save()
             .then(result => {
+                //Register buy operation
+                try {
+                    operation.buy(result);
+                } catch (err) {
+                    console.log(err);
+                }
                 return result._id;
             })
             .catch(err => {

@@ -12,10 +12,20 @@ const mongoose = require('mongoose');
 const operationSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     verbose: { type: String, required: true },
-    amount: { type: Number, required: true, default: 0 },
-    //quantity: {type:Number},
+    purchase_amount: { type: Number, required: true, default: 0 },
+    detail: {
+        name: { type: String },
+        quantity: { type: Number },
+        acquisition_price: { type: Number },
+        transport_price_per_unit: { type: Number },
+        sell_price: { type: Number },
+        IVA: { type: Number },
+        final_price: { type: Number }
+    },
     date: { type: String, required: true, default: new Date().toISOString() },
-    description: { type: string },
-    owner: { type: String, required: true },
-    account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account', required: true }
+    description: { type: String },
+    //owner: { type: String, required: true },
+    //account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account', required: true }
 });
+
+module.exports = mongoose.model('Operation', operationSchema);
