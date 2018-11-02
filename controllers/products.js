@@ -120,30 +120,33 @@ exports.getByName = (req, res, next) => {
 
 //Updates a product inventory
 exports.add_inventory = (req, res, next) => {
-    /**
-     * TODO: add a new subproduct
-     * use findOneAndUpdate({},{},upsert:true)
-     * then return result._id
-     */
     const objects = decompose(req.body);
     //Collect update promisses
     let promisses = objects.map(element => {
         let { name, quantity, ...update } = element;
         //Update the prices field and increase the quantity
         return Product
-            .findOneAndUpdate({ name: name }, { $set: update, $inc: { quantity: quantity } })
+            .findOneAndUpdate({ name: name }, { $set: update, $inc: { quantity: quantity } }, { upsert: true, new: true })
             .exec()
-            .then(result => { return result })
+            .then(result => {
+                console.log(result);
+                return result._id
+            })
     });
 
     Promise
         .all(promisses)
         .then(result => {
-            /**
-             * To add new sub objects
-             * update the parent object subobject fields with result
-             */
-            res.redirect('/products');
+            //Update sub objects
+            let update = { sub_products: result.slice(0, -1) }
+                //Update image if exits
+            if (req.file) {
+                update.image = req.file.path
+            }
+            Product.findOneAndUpdate({ name: req.body.name }, { $set: update })
+                .then(result => {
+                    res.redirect('/products');
+                })
         })
         .catch(err => {
             res.send(err);
@@ -152,17 +155,18 @@ exports.add_inventory = (req, res, next) => {
 }
 
 decompose = (body) => {
-    let update = {
-        acquisition_price: body.acquisition_price,
-        tranport_price_per_unit: body.tranport_price_per_unit,
-        sell_price: body.sell_price,
-        IVA: body.IVA,
-        final_price: body.final_price
-    }
-    let master = JSON.parse(body.sub_objects).map(val => {
-        return {...update, name: val.name, quantity: val.cantidad }
-    })
+        let update = {
+            acquisition_price: body.acquisition_price,
+            tranport_price_per_unit: body.tranport_price_per_unit,
+            sell_price: body.sell_price,
+            IVA: body.IVA,
+            final_price: body.final_price
+        }
+
+        let master = JSON.parse(body.sub_objects).map(val => {
+                    return {...update, name: `${body.name}-${val.name.replace(`${body.name}-`,'')}`, quantity: val.cantidad }
+    });
+    
     master.push({...update, name: body.name, quantity: body.quantity });
     return master;
-
 }
