@@ -55,7 +55,6 @@ exports.add = (req, res, next) => {
             material: req.body.material,
             created: new Date().toISOString(), //auto
             lastUpdate: new Date().toISOString(), //auto
-            image: req.file ? req.file.path : ''
         });
         return product.save()
             .then(result => {
