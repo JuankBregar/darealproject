@@ -130,7 +130,7 @@ $(function() {
             $('#table_tallas').addClass('wrong')
         }
 
-        return $('.wrong').lenght != 0;
+        return $('.wrong').length == 0;
     }
 
     $('.price_unit input.pu').on('change', () => {
