@@ -128,15 +128,18 @@ exports.getByName = (req, res, next) => {
 //Updates a product inventory
 exports.add_inventory = (req, res, next) => {
     const objects = decompose(req.body);
+
     //Collect update promisses
     let promisses = objects.map(element => {
         let { name, quantity, ...update } = element;
         //Update the prices field and increase the quantity
         return Product
-            .findOneAndUpdate({ name: name }, { $set: update, $inc: { quantity: quantity } }, { upsert: true, new: true })
+            .findOneAndUpdate({ name: name }, { $set: update, $inc: { quantity: quantity } }, { upsert: true, new: true, setDefaultsOnInsert: true })
             .exec()
             .then(result => {
-                console.log(result);
+                if (quantity != 0 && result.name != req.body.name) {
+                    operation.buy(element);
+                }
                 return result._id
             })
     });
@@ -167,7 +170,8 @@ decompose = (body) => {
             tranport_price_per_unit: body.tranport_price_per_unit,
             sell_price: body.sell_price,
             IVA: body.IVA,
-            final_price: body.final_price
+            final_price: body.final_price,
+            lastUpdate: new Date().toISOString()
         }
 
         let master = JSON.parse(body.sub_objects).map(val => {
