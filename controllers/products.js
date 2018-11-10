@@ -20,7 +20,7 @@ exports.get = (req, res, next) => {
                 styles: ['assets/vendor/dataTables/dataTables.bootstrap4.min.css'],
                 products: products
             }
-            res.render('product_index', data);
+            res.render('products/product_index', data);
         })
         .catch(err => {
             res.send(err);
@@ -36,7 +36,7 @@ exports.add_view = (req, res, next) => {
         ],
         assets: ['assets/js/product.js', 'assets/js/swal.js']
     }
-    res.render('product_add', data);
+    res.render('products/product_add', data);
 }
 
 exports.add = (req, res, next) => {
@@ -118,7 +118,7 @@ exports.getByName = (req, res, next) => {
                 product: product,
                 deblocked: path.includes('add') && path.includes(name),
             }
-            res.render('product_add', data);
+            res.render('products/product_add', data);
         })
         .catch(err => {
             res.send(err);
@@ -162,6 +162,20 @@ exports.add_inventory = (req, res, next) => {
             res.send(err);
         })
 
+}
+
+exports.get_aviables = () => {
+    return Product.find({ sub_products: { $exists: true, $ne: [] } })
+        .select('name type material quantity sell_price final_price image')
+        .populate({
+            path: 'sub_products',
+            select: 'name quantity',
+            match: { quantity: { $gt: 0 } }
+        })
+        .exec()
+        .then(result => {
+            return result
+        });
 }
 
 decompose = (body) => {

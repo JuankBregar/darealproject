@@ -11,10 +11,16 @@ var register = function(Handlebars) {
                 //TODO: add helper to load scripts per module
                 scripts: (assets=[])=>assets.map(val=>`<script src="../../${val}"></script>`).join(''),
                 styles : (styles=[])=>styles.map(val=>`<link rel="stylesheet" href="../../${val}">`).join(''),
-                select: function(selected, options) {
+                select: (selected, options) => {
                     return options.fn(this).replace(
                         new RegExp(' value=\"' + selected + '\"'),
                         '$& selected="selected"');
+                },
+                replace: (nedle,haystack)=>{
+                    return haystack.replace(`${nedle}-`,'');
+                },
+                fix:(value,decimals)=>{
+                    return Number(value).toFixed(decimals);
                 }
     };
 

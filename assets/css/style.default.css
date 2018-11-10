@@ -3718,3 +3718,29 @@ button.swal2-confirm.swal2-styled {
 .swal2-popup .swal2-styled:focus {
     box-shadow: 0 0 0 0.2rem rgba(219, 101, 116, 0.5) !important;
 }
+
+.img {
+    border: 1px dashed;
+}
+
+.img img {
+    width: 100%;
+    height: 185px;
+}
+
+.numbers {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+span.number_ball {
+    background: #a5a7ab;
+    border-radius: 20px;
+    color: #2c3035;
+    padding: 9px;
+    width: 41px;
+    margin-top: 9px;
+    float: right;
+    margin-left: 5px;
+}

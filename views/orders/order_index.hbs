@@ -1,0 +1,31 @@
+<div class="row">
+    {{#each products}}
+        <div class="col-lg-4">
+            <div class="block">
+                <div class="title">
+                    <strong class="d-block">{{this.name}}</strong>
+                    <span class="d-block">{{this.type}} - {{this.material}}</span>
+                </div>
+                <div class="block-body">
+                    <div class="img">
+                        <img src="/{{this.image}}">
+                    </div>
+                    <div class="numbers">
+                        {{#each this.sub_products}}
+                            <span class="number_ball">{{replace ../name this.name}}</span>
+                        {{/each}}
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col-12">
+                            <span><strong>Precio:</strong> USD ${{fix this.sell_price 2}}</span>
+                        </div>
+                        <div class="col-12">
+                            <span><strong>Precio + IVA:</strong> USD ${{fix this.final_price 2}}</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary action-btn mt-2">Agregar</button>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
