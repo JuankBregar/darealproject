@@ -5,6 +5,11 @@ const mongoose = require('mongoose');
 const hbs = require('express-handlebars');
 const path = require('path');
 const morgan = require('morgan');
+const session = require('express-session');
+const flash = require('connect-flash');
+const passport = require('passport');
+const validator = require('express-validator');
+const { isLoggedin } = require('./config/middlewares');
 
 //Init express
 const app = express();
@@ -29,13 +34,23 @@ mongoose.connect('mongodb://' +
     process.env.MONGO_PW + '@127.0.0.1:27017/' +
     process.env.MONGO_DB)
 
+require('./config/passport');
+
 //Parsing request
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(validator());
+//Use express sessions
+app.use(session({ secret: 'test123', resave: false, saveUninitialized: false }));
+//Use flash to store messages on session
+app.use(flash());
+//Init passport for handle users operation
+app.use(passport.initialize());
+//Enable passport to use sessions
+app.use(passport.session());
 
 //Routes
-const indexRoute = require('./routes/index');
-app.use('/', indexRoute);
+
 /**
  * Enable this routes after finishing inventory features.
  */
@@ -43,12 +58,19 @@ app.use('/', indexRoute);
 // const accountRoute = require('./routes/accounts');
 // app.use('/accounts', accountRoute);
 const productRoute = require('./routes/products');
-app.use('/products', productRoute);
+app.use('/products', isLoggedin, productRoute);
 const orderRoute = require('./routes/orders');
-app.use('/ventas', orderRoute);
+app.use('/ventas', isLoggedin, orderRoute);
+const userRoute = require('./routes/users');
+app.use('/users', userRoute);
+
 //Static dir
 app.use('/assets', express.static(__dirname + '/assets'));
 app.use('/uploads', express.static(__dirname + '/uploads'));
+
+//Index
+const indexRoute = require('./routes/index');
+app.use('/', isLoggedin, indexRoute);
 
 //Export
 module.exports = app;
