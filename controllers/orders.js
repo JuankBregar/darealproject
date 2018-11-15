@@ -9,6 +9,7 @@ exports.get = (req, res, next) => {
             { name: 'inicio', url: '/' },
             { name: 'ventas' },
         ],
+        assets: ['assets/js/swal.js', 'assets/js/orders.js'],
     }
 
     product = Promise.resolve(Products.get_aviables());

@@ -169,7 +169,7 @@ exports.get_aviables = () => {
         .select('name type material quantity sell_price final_price image')
         .populate({
             path: 'sub_products',
-            select: 'name quantity',
+            select: 'name quantity -_id',
             match: { quantity: { $gt: 0 } }
         })
         .exec()

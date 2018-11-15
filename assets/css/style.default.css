@@ -3743,4 +3743,37 @@ span.number_ball {
     margin-top: 9px;
     float: right;
     margin-left: 5px;
+    cursor: pointer;
+}
+
+.modal_ball {
+    float: none !important;
+    height: 60px;
+    width: 60px !important;
+    border-radius: 30px !important;
+    padding: 18px !important;
+    font-weight: 900;
+}
+
+.modal_ball:hover {
+    background: #bd5f71;
+}
+
+.modal_ball.active {
+    background: #bd5f71;
+}
+
+.form-control.modal_form {
+    width: 50%;
+    margin: auto;
+}
+
+.swal2-content hr {
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.swal2-content .action-btn {
+    width: 25%;
+    margin: auto;
+    padding: 10px;
 }

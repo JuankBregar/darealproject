@@ -21,6 +21,9 @@ var register = function(Handlebars) {
                 },
                 fix:(value,decimals)=>{
                     return Number(value).toFixed(decimals);
+                },
+                StringifyOBJ:(string)=>{
+                    return JSON.stringify(string);
                 }
     };
 
