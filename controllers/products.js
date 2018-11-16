@@ -125,6 +125,14 @@ exports.getByName = (req, res, next) => {
         })
 }
 
+exports.getByNamePromise = (name) => {
+    return Product.findOne({ name: name })
+        .exec()
+        .then(product => {
+            return product;
+        });
+}
+
 //Updates a product inventory
 exports.add_inventory = (req, res, next) => {
     const objects = decompose(req.body);

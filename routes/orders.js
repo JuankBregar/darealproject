@@ -6,5 +6,6 @@ const app = express();
 
 //Routes
 app.get('/', controller.get);
+app.post('/add_to_cart', controller.add_to_cart);
 
 module.exports = app;

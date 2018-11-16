@@ -1,6 +1,7 @@
 //Dependencies
 const mongoose = require('mongoose');
 const Order = require('../models/order');
+const Cart = require('../models/cart');
 const Products = require('../controllers/products');
 
 exports.get = (req, res, next) => {
@@ -21,4 +22,17 @@ exports.get = (req, res, next) => {
         .catch(err => {
             res.send(err);
         });
+}
+
+exports.add_to_cart = (req, res, next) => {
+    let cart = new Cart(req.session.cart ? req.session.cart : {});
+    Promise.resolve(Products.getByNamePromise(req.body.name))
+        .then(product => {
+            cart.add(product, req.body.quantity);
+            req.session.cart = cart;
+            res.redirect('/ventas');
+        })
+        .catch(err => {
+            res.send(err);
+        })
 }
