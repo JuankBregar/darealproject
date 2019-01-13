@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-lg-12">
+      <div class="block margin-bottom-sm">
+        <div class="title"><strong>Detalle de compra</strong></div>
+        <div class="table-responsive"> 
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Precio Unitario</th>
+                <th>Unidades</th>
+                <th>Acciones</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each session.cart.items}}
+                <tr>
+                  <td>{{this.name}}</td>
+                  <td>{{this.price}}</td>
+                  <td>{{this.qty}}</td>
+                  <td><a href="/ventas/remove-from-cart/{{this.name}}" class="btn btn-primary">Eliminar</a></td>
+                  <td>{{multiplication this.price this.qty}}</td>
+                </tr>
+              {{/each}}
+              <tr>
+                <td colspan="4"><strong>Total</strong></td>
+                <td><strong>{{fix session.cart.totalPrice 2}}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+</div>
+{{#if session.cart}}
+<div class="row">
+    <div class="col-12">
+        <div class="block">
+          <a class="btn btn-primary action-btn" type="button" href="/ventas/finish">Cerrar venta</a>
+        </div>
+    </div>
+</div>
+{{/if}}

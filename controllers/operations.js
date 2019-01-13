@@ -29,3 +29,26 @@ exports.buy = ({ name, quantity, acquisition_price, tranport_price_per_unit, sel
             })
     }
 }
+
+exports.sell = ({ name, price, qty }) => {
+    const operation = new Operation({
+        _id: mongoose.Types.ObjectId(),
+        verbose: Verbose.sell,
+        purchase_amount: Number(price) * Number(qty),
+        detail: {
+            name: name,
+            quantity: qty,
+            final_price: price
+        },
+        date: new Date().toISOString(),
+        description: `${Verbose.sell}-${name}/${quantity} UNIDADES`
+    });
+
+    operation.save()
+        .then(result => {
+            return result.description;
+        })
+        .catch(err => {
+            return err;
+        })
+}

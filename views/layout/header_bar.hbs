@@ -45,6 +45,15 @@
                         <i class="icon-magnifying-glass-browser"></i>
                     </a>
                 </div>
+                <!--Shoping cart-->
+                <div class="list-inline-item">
+                    <a href="/ventas/shopping-cart" class="nav-link">
+                        <i class="fa fa-shopping-cart fa-lg"></i>
+                        {{#if session.cart}}
+                        <span class="badge badge-danger">{{session.cart.totalQty}}</span>
+                        {{/if}}
+                    </a>
+                </div>
                 <!--Logout-->
                 <div class="list-inline-item logout">
                     <a href="/users/logout" id="logout" class="nav-link">Logout

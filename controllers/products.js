@@ -203,3 +203,21 @@ decompose = (body) => {
     master.push({...update, name: body.name, quantity: body.quantity });
     return master;
 }
+
+exports.updateAfterSell=({name, qty})=>{
+    const parent = name.split('-')[0];
+    /**update subproduct */
+    return Product.findOneAndUpdate({name:name},{$inc:{quantity: - Number(qty)}})
+    .exec()
+    .then(result=>{
+        /**Update Parent */
+        Product.findOneAndUpdate({name:parent},{$inc:{quantity: -Number(qty)}})
+        .exec()
+        .then(rees=>{
+            return res;
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+    })
+}

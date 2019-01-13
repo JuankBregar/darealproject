@@ -24,7 +24,10 @@ var register = function(Handlebars) {
                 },
                 StringifyOBJ:(string)=>{
                     return JSON.stringify(string);
-                }
+                },
+                multiplication: (a,b)=>{
+                    return Number(a).toFixed(2) * Number(b).toFixed(2);
+                },
     };
 
     if (Handlebars && typeof Handlebars.registerHelper === "function") {

@@ -21,4 +21,10 @@ module.exports = function Cart(oldCart) {
         }
         return arr;
     }
+
+    this.remove = (name) => {
+        this.totalQty -= Number(this.items[name].qty);
+        this.totalPrice -= Number(this.items[name].price) * Number(this.items[name].qty);
+        delete this.items[name];
+    }
 }
